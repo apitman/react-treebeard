@@ -8,6 +8,7 @@ import defaultDecorators from '../src/components/Decorators';
 import data from './mocks/data';
 
 const onToggle = jest.fn();
+const onClickIcon = jest.fn();
 
 const renderComponent = (props = {}) => {
     const wrapper = shallow(
@@ -24,6 +25,7 @@ const renderComponent = (props = {}) => {
     wrapper.drawer = () => wrapper.find('Drawer');
     wrapper.loading = () => wrapper.drawer().find('Loading');
     wrapper.simulateClickOnHeader = () => wrapper.nodeHeader().simulate('click');
+    wrapper.simulateClickOnIcon = () => wrapper.nodeHeader().simulate('click');
     return wrapper;
 };
 
@@ -47,6 +49,27 @@ describe('<TreeNode/>', () => {
                 const wrapper = renderComponent({node});
                 wrapper.simulateClickOnHeader();
                 expect(onToggle).toBeCalledWith(node, true);
+            });
+        });
+    });
+
+    describe('when the icon is clicked', () => {
+        it('should invert the toggle state', () => {
+            const wrapper = renderComponent({onClickIcon});
+            wrapper.simulateClickOnIcon();
+            expect(onToggle).toBeCalledWith(data, false);
+        });
+        describe('and the onClickIcon callback is defined', () => {
+            it('should call the onClickIcon callback once', () => {
+                const wrapper = renderComponent({onClickIcon});
+                wrapper.simulateClickOnIcon();
+                expect(onClickIcon.mock.calls.length).toBe(1);
+            });
+        });
+        describe('and no onClickIcon callback is defined', () => {
+            it('should not throw an exception', () => {
+                const wrapper = renderComponent();
+                expect(() => {wrapper.simulateClickOnIcon();}).not.toThrow();
             });
         });
     });

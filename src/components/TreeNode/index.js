@@ -22,6 +22,13 @@ class TreeNode extends PureComponent {
         }
     }
 
+    onClickIcon() {
+        const {node, onClickIcon} = this.props;
+        if (onClickIcon) {
+            onClickIcon(node, !node.toggled);
+        }
+    }
+
     animations() {
         const {animations, node} = this.props;
         if (!animations) {
@@ -93,6 +100,7 @@ class TreeNode extends PureComponent {
                     style={style}
                     customStyles={customStyles}
                     onClick={() => this.onClick()}
+                    onClickIcon={() => this.onClickIcon()}
                     onSelect={isFunction(onSelect) ? (() => onSelect(node)) : undefined}
                 />
                 <Drawer restAnimationInfo={{...restAnimationInfo}}>
@@ -106,6 +114,7 @@ class TreeNode extends PureComponent {
 TreeNode.propTypes = {
     onSelect: PropTypes.func,
     onToggle: PropTypes.func,
+    onClickIcon: PropTypes.func,
     style: PropTypes.object.isRequired,
     customStyles: PropTypes.object,
     node: PropTypes.object.isRequired,
