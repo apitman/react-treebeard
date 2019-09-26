@@ -24,8 +24,9 @@ const renderComponent = (props = {}) => {
     wrapper.nodeHeader = () => wrapper.find('NodeHeader');
     wrapper.drawer = () => wrapper.find('Drawer');
     wrapper.loading = () => wrapper.drawer().find('Loading');
+    wrapper.toggle = () => wrapper.find('Toggle');
     wrapper.simulateClickOnHeader = () => wrapper.nodeHeader().simulate('click');
-    wrapper.simulateClickOnIcon = () => wrapper.nodeHeader().simulate('click');
+    wrapper.simulateClickOnIcon = () => wrapper.toggle().simulate('click');
     return wrapper;
 };
 
